@@ -6,7 +6,7 @@
 
 //windows __declspec for dlls
 
-#ifdef WIN32
+#ifdef _WIN32
     #ifdef SMARTP_BUILDING_LIB
         #define SMARTP_API __declspec(dllexport)
     #else
