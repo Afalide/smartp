@@ -44,17 +44,22 @@ This is very simple and efficient, however there are some drawbacks.
 
  - Circular reference will provoke a memory leak.
 
-The main SP facepalm happens when you get a `circular reference`.
+Example for a circular reference:
+
 For example:
 
-	class myclass
+	//a simple struct which holds a smart pointer of another struct
+
+	struct myclass
 	{
 		smartp<myclass> something;
 
 		public:
-		myclass() : something(this) { };	
+		myclass() : something(nullptr) { };	
 	};
-
+	
+	
+	
 	int main()
 	{
 	    smartp<myclass> a(new myclass);
@@ -68,7 +73,7 @@ For example:
 	    return 0;
 	}
 
-Here the circular reference is a -> b -> c -> a. This execution results in a memory leak, since the `a` object is not deleted because of the 1 extra ref count.
+Here the circular reference is `a -> b -> c -> a`. This execution results in a memory leak, since the `a` object is not deleted because of an extra strong ref count.
 
 The solution is to use a weak pointer (WP). WPs are created from an existing SP:
 
